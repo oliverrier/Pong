@@ -10,6 +10,7 @@ class Ball ():
         self.y2 = y2
         self.deltax = 3
         self.deltay = 3
+        self.last_touched_by = None
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.ball = game_screen.create_oval(
@@ -17,6 +18,12 @@ class Ball ():
 
     def move_ball(self):
         position = self.screen.coords(self.ball)
+        if len(game_screen.find_overlapping(position[0], position[1], position[2], position[3])) == 2 and game_screen.find_overlapping(position[0], position[1], position[2], position[3])[1] == 2:
+            self.last_touched_by = player_1
+            self.deltax = - (self.deltax - 1)
+        if len(game_screen.find_overlapping(position[0], position[1], position[2], position[3])) == 2 and game_screen.find_overlapping(position[0], position[1], position[2], position[3])[1] == 3:
+            self.last_touched_by = player_2
+            self.deltax = - (self.deltax + 1)
         if position[0] <= 0:
             player_2.score += 1
             print(player_2.score)
@@ -42,16 +49,15 @@ class Player():
         self.score = 0
         self.paddle = game_screen.create_rectangle(
             position[0], position[1], position[2], position[3], fill='white')
+        self.position = self.screen.coords(self.paddle)
 
     def move_paddle_up(self):
-        paddle_position = self.screen.coords(self.paddle)
-        if paddle_position[1] >= 0:
+        if self.position[1] >= 0:
             self.screen.move(self.paddle, 0, - self.deltay)
 
 
     def move_paddle_down(self):
-        paddle_postion = self.screen.coords(self.paddle)
-        if paddle_postion[3] <= self.screen_height:
+        if self.position[3] <= self.screen_height:
             self.screen.move(self.paddle, 0, self.deltay)
 
     
