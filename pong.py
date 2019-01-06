@@ -52,14 +52,10 @@ class Ball ():
             self.stop_ball()
             player_2.score += 1
             self.screen.move(self.ball, screen_width/2 - 5 - position[0], screen_height / 2 - 5 - position[1])
-            game.start()
-            print(player_2.score)
         if position[2] >= screen_width:
             self.stop_ball()
             player_1.score += 1
             self.screen.move(self.ball, screen_width/2 - 5 - position[0], screen_height / 2 - 5 - position[1])
-            game.start()
-            print(player_1.score)
         if position[1] <= 0 or position[3] >= self.screen_height:
             self.deltay = - self.deltay
         self.screen.move(self.ball, self.deltax, self.deltay)
@@ -115,7 +111,7 @@ screen.bind("<Key>", game.move_paddle)
 
 
 
-game_screen.grid(row=0, column=0, sticky='nsew')
+game_screen.pack()
 game.start()
 
 # Infinite loop
