@@ -45,15 +45,28 @@ class Player():
 
     def move_paddle_up(self):
         paddle_position = self.screen.coords(self.paddle)
-        if paddle_position[1] == 0:
-            self.deltay = 0
-        self.screen.move(self.paddle, 0, - self.deltay)
+        if paddle_position[1] >= 0:
+            self.screen.move(self.paddle, 0, - self.deltay)
+
 
     def move_paddle_down(self):
         paddle_postion = self.screen.coords(self.paddle)
-        if paddle_postion[3] == self.screen_height:
-            self.deltay = 0
-        self.screen.move(self.paddle, 0, self.deltay)
+        if paddle_postion[3] <= self.screen_height:
+            self.screen.move(self.paddle, 0, self.deltay)
+
+    
+def move_paddle(event):
+    key = event.keysym
+    if key == "z":
+        player_1.move_paddle_up()
+    if key == "s":
+        player_1.move_paddle_down()
+    if key == "Up":
+        player_2.move_paddle_up()
+    if key == "Down":
+        player_2.move_paddle_down()
+        
+
 
 
 # Initialisation of the components
@@ -69,10 +82,7 @@ player_1 = Player(
     game_screen, [10, screen_height/2 - 25, 20, screen_height/2 + 25])
 player_2 = Player(game_screen, [
                   screen_width - 20, screen_height/2 - 25, screen_width - 10, screen_height/2 + 25])
-game_screen.bind("z", player_1.move_paddle_up)
-game_screen.bind("s", player_1.move_paddle_down)
-game_screen.bind("<Up>", player_2.move_paddle_up)
-game_screen.bind("<Down>", player_2.move_paddle_down)
+screen.bind("<Key>", move_paddle)
 game_screen.pack()
 
 # Component's placements
